@@ -1,19 +1,45 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Fragment } from 'react';
+
+// context
+import { MyContext, MyProvider } from './context';
+
+
+const Family = props => (
+  <div className="family">
+    <Person />
+  </div>
+);
+
+class Person extends Component {
+  render() {
+    return (
+      <div className="person">
+        <MyContext.Consumer>
+          {
+            (context) => (
+              <Fragment>
+                <p>Name: {context.state.name}</p>
+                <p>Age: {context.state.age}</p>
+                <p>Cool: {context.state.cool ? '✅' : 'X'}</p>
+                <button onClick={context.growAYearOlder}>🍥🍰🎂</button>
+              </Fragment>
+            )
+          }
+        </MyContext.Consumer>
+      </div>
+    )
+  }
+}
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <MyProvider>
+        <div className="App">
+          I'm the app
+          <Family />
+        </div>
+      </MyProvider>
     );
   }
 }
